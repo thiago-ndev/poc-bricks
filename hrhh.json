@@ -1,0 +1,186 @@
+{
+  "model": "HRHH",
+  "source": {
+    "format": "parquet",
+    "path": "/home/negan/projetos/data_bricks/data-project/hrhh.json"
+  },
+  "target": {
+    "format": "csv",
+    "path": "/home/negan/projetos/data_bricks/data-project/output_parquet/",
+    "mode": "overwrite",
+    "compression": "snappy"
+  },
+  "options": {
+    "select_only_output_columns": true
+  },
+  "columns": [
+    {
+      "order": 1,
+      "output": "FIELD_1",
+      "input": "INCOME_RELATED_AVERAGE",
+      "condition": {
+        "op": "and",
+        "conditions": [
+          {
+            "column": "MSG_CLI",
+            "op": "==",
+            "value": "CPF VALIDO"
+          },
+          {
+            "column": "MODEL",
+            "op": "==",
+            "value": 0,
+            "cast": "int"
+          }
+        ]
+      },
+      "then": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "lpad", "len": 9, "fill": "0" }
+        ]
+      },
+      "otherwise": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "substring", "start": 1, "len": 5 },
+          { "op": "rpad", "len": 9, "fill": "0" }
+        ]
+      }
+    },
+    {
+      "order": 2,
+      "output": "FIELD_2",
+      "input": "INCOME_HOUSEHOLD_SUM",
+      "condition": {
+        "op": "or",
+        "conditions": [
+          {
+            "column": "FLAG",
+            "op": "==",
+            "value": "A"
+          },
+          {
+            "column": "FLAG",
+            "op": "==",
+            "value": "B"
+          }
+        ]
+      },
+      "then": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "lpad", "len": 10, "fill": "0" }
+        ]
+      },
+      "otherwise": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "substring", "start": 1, "len": 6 },
+          { "op": "rpad", "len": 10, "fill": "0" }
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "output": "FIELD_3",
+      "input": "HOUSEHOLD_QTY",
+      "then": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "lpad", "len": 2, "fill": "0" }
+        ]
+      }
+    },
+    {
+      "order": 4,
+      "output": "FIELD_4",
+      "input": "AGE",
+      "then": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "substring", "start": 1, "len": 2 }
+        ]
+      }
+    },
+    {
+      "order": 5,
+      "output": "FIELD_5",
+      "input": "SCORE",
+      "condition": {
+        "op": "and",
+        "conditions": [
+          {
+            "column": "MODEL",
+            "op": "!=",
+            "value": "BLOCKED"
+          },
+          {
+            "column": "DT_TO",
+            "op": "isNull"
+          }
+        ]
+      },
+      "then": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "lpad", "len": 5, "fill": "0" }
+        ]
+      },
+      "otherwise": {
+        "literal": "99999"
+      }
+    },
+    {
+      "order": 6,
+      "output": "FIELD_6",
+      "input": "CITY_CODE",
+      "then": {
+        "pipeline": [
+          { "op": "trim" },
+          { "op": "substring", "start": 1, "len": 3 }
+        ]
+      }
+    },
+    {
+      "order": 7,
+      "output": "FIELD_7",
+      "input": "ZIP_CODE",
+      "then": {
+        "pipeline": [
+          { "op": "cast", "type": "string" },
+          { "op": "lpad", "len": 8, "fill": "0" }
+        ]
+      }
+    },
+    {
+      "order": 8,
+      "output": "FIELD_8",
+      "input": "DOCUMENT",
+      "condition": {
+        "op": "or",
+        "conditions": [
+          {
+            "column": "DOC_TYPE",
+            "op": "==",
+            "value": "CPF"
+          },
+          {
+            "column": "DOC_TYPE",
+            "op": "==",
+            "value": "CNPJ"
+          }
+        ]
+      },
+      "then": {
+        "pipeline": [
+          { "op": "substring", "start": 1, "len": 11 },
+          { "op": "rpad", "len": 14, "fill": "0" }
+        ]
+      },
+      "otherwise": {
+        "literal": "17652208742"
+      }
+    }
+  ]
+}

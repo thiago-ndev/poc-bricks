@@ -1,0 +1,53 @@
+{
+  "model": "HRHH",
+  "source": {
+    "format": "parquet",
+    "path": "/home/negan/projetos/data_bricks/data-project/hrhh.json"
+  },
+  "target": {
+    "format": "csv",
+    "path": "/home/negan/projetos/data_bricks/data-project/output_parquet/",
+    "mode": "overwrite"
+  },
+  "engine_conditions": {
+    "zera-score-se-tiver-filtro": true,
+    "altera-retorno-se-tiver-filtro": true,
+    "roda-flagmodels": false,
+    "list-exception-bulkload": false,
+    "renda-model": true,
+    "is-book": false,
+    "BLAST_FULL": false,
+    "trailer": true,
+    "risk": {},
+    "select_string_layout": "concat(nvl(_c0,''),)",
+    "list_lock_unlock": false,
+    "fields": ["INCOME_RELATED_AVERAGE", "INCOME_HOUSEHOLD_SUM", "HOUSEHOLD_QTY", "RELATED_QTY"],
+    "bulkload-generic-pf": {"select": "NDOC, HRHH, INCOME_RELATED_AVERAGE, HOUSEHOLD_QTY, INCOME_HOUSEHOLD_SUM, RELATED_QTY"}
+  },
+  "columns": [
+    {
+      "order": 1,
+      "output": "FIELD_1",
+      "input": "INCOME_RELATED_AVERAGE",
+      "has-filter": 0
+    },
+    {
+      "order": 2,
+      "output": "FIELD_1",
+      "input": "INCOME_HOUSEHOLD_SUM",
+      "has-filter": 0
+    },
+    {
+      "order": 3,
+      "output": "FIELD_1",
+      "input": "HOUSEHOLD_QTY",
+      "has-filter": 99
+    },
+    {
+      "order": 4,
+      "output": "FIELD_1",
+      "input": "RELATED_QTY",
+      "has-filter": 99
+    }
+  ]
+}

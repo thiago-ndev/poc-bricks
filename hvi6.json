@@ -1,0 +1,40 @@
+{
+  "model": "HVI6",
+  "source": {
+    "format": "parquet",
+    "path": "/home/negan/projetos/data_bricks/data-project/hrhh.json"
+  },
+  "target": {
+    "format": "csv",
+    "path": "/home/negan/projetos/data_bricks/data-project/output_parquet/",
+    "mode": "overwrite"
+  },
+  "engine_conditions": {
+    "zera-score-se-tiver-filtro": true,
+    "altera-retorno-se-tiver-filtro": false,
+    "roda-flagmodels": true,
+    "list-exception-bulkload": false,
+    "renda-model": false,
+    "is-book": false,
+    "BLAST_FULL": false,
+    "trailer": true,
+    "risk": {},
+    "select_string_layout": "concat(nvl(_c0,''),)",
+    "list_lock_unlock": false,
+    "fields": ["FLAGMODEL1", "MSG_FLAGMODEL1"],
+    "bulkload-generic-pf": {"select": "NDOC, HVI6_RAW AS HVI6, AUTORIZA_POS, FLAG_HVI6 AS FLAGMODEL1"},
+    "apply_customizations": false
+  },
+  "columns": [
+    {
+      "order": 1,
+      "output": "FIELD_1",
+      "input": "FLAGMODEL1 "
+    },
+    {
+      "order": 2,
+      "output": "FIELD_2",
+      "input": "MSG_FLAGMODEL1"
+    }
+  ]
+}
