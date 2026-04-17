@@ -9,7 +9,7 @@
     "path": "/home/negan/projetos/data_bricks/data-project/output_parquet/",
     "mode": "overwrite"
   },
-  "engine_conditions": {
+  "GV-features": {
     "zera-score-se-tiver-filtro": true,
     "altera-retorno-se-tiver-filtro": true,
     "roda-flagmodels": false,
